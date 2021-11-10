@@ -17,16 +17,19 @@ sunset = requests.get(f'https://api.sunrise-sunset.org/json?lat={scottsdale_lati
 sunset = sunset.json()['results']['sunset']
 
 # back up from sunset by 10 minutes
-sunset = parse(sunset) - datetime.timedelta(minutes=10)
+sunset = parse(sunset) - datetime.timedelta(hours=7, minutes=10)
 
 # find date for tomorrow
 tomorrow = str(datetime.datetime.today().date() + datetime.timedelta(days=1))
 
 # find sunrise  time tomorrow
-sunrise = requests.get(f'https://api.sunrise-sunset.org/json?lat={scottsdale_latitude}&lng={scottsdale_longitude}&formatted=0&date={tomorrow}')
+url=f'https://api.sunrise-sunset.org/json?lat={scottsdale_latitude}&lng={scottsdale_longitude}&formatted=0&date={tomorrow}'
+print(url)
+sunrise = requests.get(url)
 
 # extract UTC time
 sunrise = sunrise.json()['results']['sunrise']
+sunrise = parse(sunrise) - datetime.timedelta(hours=7)
 
 # add time to string
 sunset_job = f'echo python3 "arrivals_flight_data.py" | at "{str(sunset)[11:16]}"'
