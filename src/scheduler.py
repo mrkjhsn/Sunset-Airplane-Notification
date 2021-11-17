@@ -24,7 +24,6 @@ tomorrow = str(datetime.datetime.today().date() + datetime.timedelta(days=1))
 
 # find sunrise  time tomorrow
 url=f'https://api.sunrise-sunset.org/json?lat={scottsdale_latitude}&lng={scottsdale_longitude}&formatted=0&date={tomorrow}'
-print(url)
 sunrise = requests.get(url)
 
 # extract UTC time
@@ -32,8 +31,8 @@ sunrise = sunrise.json()['results']['sunrise']
 sunrise = parse(sunrise) - datetime.timedelta(hours=7)
 
 # add time to string
-sunset_job = f'echo python3 "arrivals_flight_data.py" | at "{str(sunset)[11:16]}"'
-sunrise_job = f'echo python3 "departures_flight_data.py" | at "{str(sunrise)[11:16]}"'
+sunset_job = f"echo python3 \"arrivals_flight_data.py\" | at \"{str(sunset)[11:16]}\""
+sunrise_job = f"echo python3 \"departures_flight_data.py\" | at \"{str(sunrise)[11:16]}\""
 
 # create "at" job
 os.system(sunset_job)

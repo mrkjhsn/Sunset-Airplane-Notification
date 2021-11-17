@@ -1,6 +1,8 @@
 param(
     $pip=$true
-    ,$apt=$true   
+    ,$apt=$true
+    ,$hour=12
+    ,$minute=0
 )
 
 # create destination folder
@@ -25,4 +27,4 @@ if ($pip) {
     ssh pi@$ip_address $cmd
 }
 
-ssh pi@$ip_address "echo '0 12 * * * /usr/bin/python3 /home/pi/flightwatch/scheduler.py' | /usr/bin/crontab -"
+ssh pi@$ip_address "echo '$minute $hour * * * cd /home/pi/flightwatch/ && /usr/bin/python3 ./scheduler.py' | /usr/bin/crontab -"
